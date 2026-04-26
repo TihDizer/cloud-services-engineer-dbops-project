@@ -7,25 +7,30 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    #### Добавьте шаг с Flyway-миграциями
+      #### Добавьте шаг с Flyway-миграциями
+      - name: Install Flyway
+        run: |
+          curl -L -o flyway-commandline.tar.gz "https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/11.1.0/flyway-commandline-11.1.0-linux-x64.tar.gz"
+          tar -xzf flyway-commandline.tar.gz
+          sudo ln -s \`pwd\`/flyway-11.1.0/flyway /usr/local/bin/flyway
 
-    ### Этот шаг оставьте без изменений
-    - name: Download and setup autotests binaries
-      run: |
-        wget -qO- cloud-services-engineer.gitlab.yandexcloud.net/practicum-cloud-services/dbops-autotests/-/package_files/1/download > dbopstest
-        chmod +x ./dbopstest
-        mv ./dbopstest /usr/local/bin/dbopstest
-
-    ### Этот шаг оставьте без изменений
-    - name: Test
-      run: |
-        dbopstest \
-          -test.v \
-          -host=${{ secrets.DB_HOST }} \
-          -port=${{ secrets.DB_PORT }} \
+      - name: Run Flyway migrations
+        run: |
+          flyway migrate \
+          -url=jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }} \
           -user=${{ secrets.DB_USER }} \
-          -password=${{ secrets.DB_PASSWORD }} \
-          -db=${{ secrets.DB_NAME }}
+          -password=${{ secrets.DB_PASSWORD }}
+
+      ### Этот шаг оставьте без изменений
+      - name: Test
+        run: |
+          dbopstest \
+            -test.v \
+            -host=${{ secrets.DB_HOST }} \
+            -port=${{ secrets.DB_PORT }} \
+            -user=${{ secrets.DB_USER }} \
+            -password=${{ secrets.DB_PASSWORD }} \
+            -db=${{ secrets.DB_NAME }}
