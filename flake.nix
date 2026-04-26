@@ -10,7 +10,7 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
-          postgresql-client
+          postgresql
         ];
         shellHook = ''
           docker compose up
