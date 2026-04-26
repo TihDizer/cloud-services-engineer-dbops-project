@@ -13,7 +13,7 @@
           postgresql
         ];
         shellHook = ''
-          sudo docker compose up --detatch
+          sudo docker compose up --detach
           echo "Nix dev shell activated"
           trap '
             sudo docker compose down
