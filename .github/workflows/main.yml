@@ -24,7 +24,8 @@ jobs:
           -X \
           -url=jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }} \
           -user=${{ secrets.DB_USER }} \
-          -password=${{ secrets.DB_PASSWORD }}
+          -password=${{ secrets.DB_PASSWORD }} \
+          -locations=filesystem:migrations
 
       ### Этот шаг оставьте без изменений
       - name: Test
