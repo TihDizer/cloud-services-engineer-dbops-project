@@ -10,9 +10,12 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
+          docker
           postgresql
         ];
+
         shellHook = ''
+          clear
           sudo docker compose up --detach
           echo "Nix dev shell activated"
           trap '
