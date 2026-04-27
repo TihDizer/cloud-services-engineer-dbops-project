@@ -1,4 +1,5 @@
 {
+  description = "A basic flake for psql and run docker compose (used for local development)";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs =
