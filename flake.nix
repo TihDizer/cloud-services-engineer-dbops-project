@@ -13,6 +13,7 @@
         packages = with pkgs; [
           # docker
           postgresql
+          flyway
         ];
 
         shellHook = ''
