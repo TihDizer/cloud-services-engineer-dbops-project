@@ -23,9 +23,9 @@ sudo docker compose up --detach
 ```
 ## Step 10 (before indeces)
 ```psql
-db=> \timing
+store=# \timing
 ```
-```SQL
+```sql
 SELECT o.date_created, SUM(op.quantity)
 FROM orders AS o
 JOIN order_product AS op ON o.id = op.order_id
@@ -48,8 +48,28 @@ Time: 35378.667 ms (00:35.379)
 ```
 ## Step 11 (after indeces)
 ```psql
-db=> \timing
+store=# \timing
 ```
-```SQL
+```sql
+SELECT o.date_created, SUM(op.quantity)
+FROM orders AS o
+JOIN order_product AS op ON o.id = op.order_id
+WHERE o.status = 'shipped' AND o.date_created > NOW() - INTERVAL '7 DAY'
+GROUP BY o.date_created;
+```
+```psql
+ date_created |  sum
+--------------+--------
+ 2026-04-21   | 951720
+ 2026-04-22   | 946816
+ 2026-04-23   | 941349
+ 2026-04-24   | 960466
+ 2026-04-25   | 951640
+ 2026-04-26   | 947010
+ 2026-04-27   | 638924
+(7 rows)
 
+Time: 1605.622 ms (00:01.606)
 ```
+
+Время уменьшилось в 40 раз после добавления индексов
