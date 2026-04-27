@@ -13,6 +13,14 @@ sudo sh ./get-docker.sh
 ```bash
 nix develop --experimental-features 'nix-command flakes'
 ```
+or pure psql
+```bash
+sudo apt-get install -y postgresql-client
+```
+and
+```bash
+sudo docker compose up --detach
+```
 ## Step 10 (before indeces)
 ```psql
 db=> \timing
@@ -37,4 +45,11 @@ GROUP BY o.date_created;
 (7 rows)
 
 Time: 35378.667 ms (00:35.379)
+```
+## Step 11 (after indeces)
+```psql
+db=> \timing
+```
+```SQL
+
 ```
