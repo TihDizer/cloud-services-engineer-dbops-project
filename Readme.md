@@ -163,7 +163,7 @@ C индексами намного меньше строк обрабатыва
   (cost=0.00..3556.54 rows=264410 width=0)
   (actual time=26.336..26.336 rows=253586 loops=1)
 ```
-
+Без индексов
 ```psql
 ->  Parallel Seq Scan on orders o
   (cost=0.00..147028.33 rows=110171 width=12)
