@@ -24,7 +24,7 @@ sudo docker compose up --detach
 ## Create db and user
 ```sql
 CREATE DATABASE store ENCODING = 'UTF8';
-CREATE ROLE migration_service_user WITH LOGIN PASSWORD '<secret password>';
+CREATE ROLE migration_service_user WITH LOGIN PASSWORD 'super_secret';
 GRANT CONNECT ON DATABASE store TO migration_service_user;
 ```
 ## Grant privileges for new user
@@ -157,7 +157,11 @@ Finalize GroupAggregate  (cost=188752.11..188775.17 rows=91 width=12) (actual ti
 ```
 
 ## Compare
-C индексами намного меньше строк обрабатывается
+C индексами намного меньше строк обрабатывается и используется orders_status_date_idx
+
+```psql
+Bitmap Index Scan on orders_status_date_idx
+```
 ```psql
 ->  Bitmap Index Scan on orders_status_date_idx
   (cost=0.00..3556.54 rows=264410 width=0)
